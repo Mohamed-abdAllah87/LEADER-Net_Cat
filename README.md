@@ -1,63 +1,24 @@
-import socket
-import subprocess
-import argparse
-import sys
-import threading
-import shlex
-import textwrap
+LEADER-NC: A Multipurpose Networking & Security Tool
+Overview
+LEADER-NC is a powerful, Python-based implementation of the classic Netcat utility, designed for security professionals and network administrators. This tool provides a versatile interface for network communication, allowing users to perform various tasks such as port scanning, file transfers, and establishing remote shells. Built with a modular architecture, it leverages Python's socket, threading, and subprocess libraries to deliver high-performance networking capabilities.
 
-def execute (cmd):
-    cmd = cmd.strip()
-    if not cmd:
-        return
-    output = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
-    return output.decode()
+Key Features
+Command Shell (Bind/Reverse): Seamlessly execute remote commands or establish interactive shell sessions.
 
-class NetCat:
-    def __init__(self, args, buffer=None):
-        self.args =args
-        self.buffer=buffer
-        self.socket= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+File Transfer: Securely upload and save files directly to a remote target.
 
-    def run(self):
-        if self.args.listen:
-            self.listen()
-        else:
-            self.send()
+Multi-threaded Handling: Supports multiple simultaneous connections without blocking the main server.
 
-    def send (self):
-        self.socket.connect((self.args.target, self.args.port))
+Flexible Command Execution: Direct integration with the OS via subprocess for executing system-level commands.
 
-        if self.buffer:
-            self.socket.send(self.buffer)
+Professional CLI: A robust command-line interface powered by argparse for easy configuration.
 
-            try:
-                while True:
-                    recv_len = (4096)
-                    response = ''
-                    while recv_len:
-                        data = self.socket.recv(4096)
-                        recv_len = len(data)
-                        response += data.decode()
-                        if recv_len < 4096:
-                              break
-                        
-                    if response:
-                        print(response)
-                        buffer = input ('> ')
-                        buffer += '\n'
-                        self.socket.send(buffer.encode())
+Why I Built This
+As a cybersecurity enthusiast and professional, I developed this tool to deepen my understanding of lower-level network protocols and their practical applications in penetration testing. It serves as a testament to my proficiency in Python automation and my ability to create custom security tooling from the ground up.
 
-            except KeyboardInterrupt:
-                print ('\nUser Terminated')
-                self.socket.close()
-                sys.exit
+Technical Stack
+Language: Python 3.x
 
+Core Modules: socket, threading, argparse, subprocess.
 
-
-
-
-        
-
-
+Security Context: Designed for use in controlled environments (CTFs, Labs, Authorized Audits).
