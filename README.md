@@ -16,6 +16,8 @@ Professional CLI: A robust command-line interface powered by argparse for easy c
 Why I Built This
 As a cybersecurity enthusiast and professional, I developed this tool to deepen my understanding of lower-level network protocols and their practical applications in penetration testing. It serves as a testament to my proficiency in Python automation and my ability to create custom security tooling from the ground up.
 
+Workflow: The tool establishes a raw TCP socket connection. Upon connection, the server spawns a dedicated thread to handle the client, providing a persistent environment for command execution and data exchange
+
 Technical Stack
 Language: Python 3.x
 
